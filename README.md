@@ -45,10 +45,7 @@ echo ShareLinks::widget([
 
 Defined services:
 ```php
-/**
- * @var array
- */
-public $services = [
+$services = [
 	'twitter' => ['label' => 'Share via twitter'],
 	'facebook' => ['label' => 'Share via Facebook'],
 	'vkontakte' => ['label' => 'Share via Vkontakte'],
