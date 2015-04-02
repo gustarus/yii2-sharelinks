@@ -44,10 +44,10 @@ echo ShareLinks::widget([
 ```
 
 Defined services:
-    twitter
-    facebook
-    vkontakte
-    gplus
-    linkedin
-    kindle
-    email
+	twitter
+	facebook
+	vkontakte
+	gplus
+	linkedin
+	kindle
+	email
