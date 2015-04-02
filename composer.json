@@ -9,7 +9,14 @@
 		{
 			"name": "Pavel Kondratenko",
 			"email": "gustarus@gmail.com",
-			"homepage" : "http://webulla.ru"
+			"homepage": "http://webulla.ru",
+			"role": "Developer"
+		},
+		{
+			"name": "Evgeniy Kuzminov",
+			"email": "kyzminov@gmail.com",
+			"homepage": "http://stdout.in",
+			"role": "Author"
 		}
 	],
 	"require": {
