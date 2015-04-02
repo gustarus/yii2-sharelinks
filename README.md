@@ -1,8 +1,17 @@
 Webulla Yii2 sharing links widget
 ======================
 
-Usage
------
+## Installation
+
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+
+Either run
+
+```
+$ ./composer require "webulla/yii2-share_links":"*"
+```
+
+## Usage
 
 First, you need to connect the widget:
 ```php
@@ -43,7 +52,7 @@ echo ShareLinks::widget([
 ]);
 ```
 
-Defined services:
+Predefined services:
 ```php
 $services = [
 	'twitter' => ['label' => 'Share via twitter'],
