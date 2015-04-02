@@ -7,9 +7,9 @@
 	"license": "MIT",
 	"authors": [
 		{
-			"name": "Evgeniy Kuzminov",
-			"email": "kyzminov@gmail.com",
-			"homepage" : "http://stdout.in"
+			"name": "Pavel Kondratenko",
+			"email": "gustarus@gmail.com",
+			"homepage" : "http://webulla.ru"
 		}
 	],
 	"require": {
@@ -17,7 +17,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"ijackua\\sharelinks\\": ""
+			"webulla\\sharelinks\\": ""
 		}
 	}
 }
