@@ -1,9 +1,9 @@
 <?php
+
 namespace webulla\sharelinks;
 
 use Yii;
 use webulla\sharelinks\assets\ShareLinksAsset;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class ShareLinks extends \yii\base\Widget {
@@ -12,6 +12,16 @@ class ShareLinks extends \yii\base\Widget {
 	 * @var string
 	 */
 	public $url;
+
+	/**
+	 * @var string
+	 */
+	public $title;
+
+	/**
+	 * @var string
+	 */
+	public $body;
 
 	/**
 	 * @var string
@@ -85,7 +95,7 @@ class ShareLinks extends \yii\base\Widget {
 	 * @inheritdoc
 	 */
 	public function run() {
-		$this->view->registerJs('$("' . $this->selector . '").sharelinks(' . json_encode($this->options) . ');');
+		$this->view->registerJs('$("' . $this->selector . '").sharelinks(' . json_encode($this->clientOptions) . ');');
 
 		$items = [];
 		foreach($this->getLinks() as $link) {
