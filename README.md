@@ -44,6 +44,7 @@ echo ShareLinks::widget([
 ```
 
 Defined services:
+
 	twitter
 	facebook
 	vkontakte
@@ -51,3 +52,4 @@ Defined services:
 	linkedin
 	kindle
 	email
+
