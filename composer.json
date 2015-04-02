@@ -1,0 +1,23 @@
+{
+	"name": "webulla/yii2-share_links",
+	"description": "Yii2 widget for social networks or email sharing",
+	"keywords": ["webulla", "yii2", "yii", "share", "social", "network", "extension", "widget"],
+	"homepage": "https://github.com/iJackUA/yii2-sharelinks-widget",
+	"type": "yii2-extension",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Evgeniy Kuzminov",
+			"email": "kyzminov@gmail.com",
+			"homepage" : "http://stdout.in"
+		}
+	],
+	"require": {
+		"yiisoft/yii2": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"ijackua\\sharelinks\\": ""
+		}
+	}
+}
