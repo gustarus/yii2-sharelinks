@@ -1,6 +1,8 @@
 Webulla Yii2 sharing links widget
 ======================
 
+Widget for posting links to publications on social networks.
+
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
@@ -18,10 +20,12 @@ First, you need to connect the widget:
 use webulla\sharelinks\ShareLinks;
 ```
 
-Then, you can use widget with default configurations:
+Then, you can use widget with default configurations for sharing via facebook, twitter, vkontakte and email:
 ```php
 echo ShareLinks::widget([
 	'links' => [
+		'facebook' => [],
+		'twitter' => [],
 		'vkontakte' => [],
 		'email' => [],
 	]
@@ -31,6 +35,16 @@ echo ShareLinks::widget([
 Or, you can override any default settings:
 ```php
 echo ShareLinks::widget([
+	// page title (default: Yii::$app->view->title)
+	'title' => 'Page title',
+
+	// page description
+	'body' => 'Page description',
+
+	// page url (default: Yii::$app->request->absoluteUrl)
+	'url' => 'http://yoursite.com/page',
+
+	// links collection
 	'links' => [
         // default service
 		'facebook' => ['label' => 'Facebook'],
