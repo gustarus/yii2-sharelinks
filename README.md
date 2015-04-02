@@ -35,14 +35,14 @@ echo ShareLinks::widget([
 Or, you can override any default settings:
 ```php
 echo ShareLinks::widget([
+	// page url (default: Yii::$app->request->absoluteUrl)
+	'url' => 'http://yoursite.com/page',
+
 	// page title (default: Yii::$app->view->title)
 	'title' => 'Page title',
 
 	// page description
 	'body' => 'Page description',
-
-	// page url (default: Yii::$app->request->absoluteUrl)
-	'url' => 'http://yoursite.com/page',
 
 	// links collection
 	'links' => [
