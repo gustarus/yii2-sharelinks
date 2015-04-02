@@ -5,9 +5,7 @@
  * Contact:     gustarus@gmail.com
  */
 
-
 (function ($) {
-
 	var defaults = {
 		height: 450, // sets the height in pixels of the window.
 		width: 600, // sets the width in pixels of the window.
@@ -24,7 +22,7 @@
 	};
 
 	$.fn.sharelinks = function (settings) {
-		return this.each(function (i) {
+		return this.not('.share-link-manual').each(function (i) {
 			var settings = $.extend({}, defaults, settings);
 
 			// center the window
@@ -46,12 +44,12 @@
 				',top=' + settings.top +
 				',screenY=' + settings.top;
 
-			$(this).click(function () {
-				var name = settings.createnew ? 'PopUpWindow' + i : 'PopUpWindow';
-				var window = window.open(this.href, name, parameters);
-				window.focus();
+			$(this).click(function (e) {
+				e.preventDefault();
 
-				return false;
+				var name = settings.createnew ? 'PopUpWindow' + i : 'PopUpWindow';
+				var popup = window.open(this.href, name, parameters);
+				popup.focus();
 			});
 		});
 	};

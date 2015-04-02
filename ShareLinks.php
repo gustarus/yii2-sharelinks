@@ -5,6 +5,7 @@ namespace webulla\sharelinks;
 use Yii;
 use webulla\sharelinks\assets\ShareLinksAsset;
 use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 class ShareLinks extends \yii\base\Widget {
 
@@ -57,6 +58,7 @@ class ShareLinks extends \yii\base\Widget {
 		'gplus' => ['label' => 'Share via Google Plus', 'url' => 'https://plus.google.com/share?url={url}'],
 		'linkedin' => ['label' => 'Share via Linkedin', 'url' => 'http://www.linkedin.com/shareArticle?url={url}'],
 		'kindle' => ['label' => 'Share via Kindle', 'url' => 'http://fivefilters.org/kindle-it/send.php?url={url}'],
+		'email' => ['label' => 'Share via E-mail', 'url' => 'mailto:?subject={title}&body={body} {url}', 'options' => ['class' => 'share-link-manual']],
 	];
 
 	/**
@@ -69,10 +71,12 @@ class ShareLinks extends \yii\base\Widget {
 	 * @param $data
 	 */
 	public function setLinks($data) {
-		foreach($data as $service => $options) {
-			$link = isset($this->services[$service]) ? $this->services[$service] : [];
-			$link = array_merge($link, $options);
-			$this->_links[] = $link;
+		foreach($data as $key => $link) {
+			if(isset($this->services[$key])) {
+				$link = array_merge($this->services[$key], $link);
+			}
+
+			$this->_links[$key] = $link;
 		}
 	}
 
@@ -87,7 +91,9 @@ class ShareLinks extends \yii\base\Widget {
 	 * @inheritdoc
 	 */
 	public function init() {
-		$this->url = (empty($this->url)) ? Yii::$app->request->absoluteUrl : $this->url;
+		$this->title = $this->title ?: Yii::$app->view->title;
+		$this->url = $this->url ?: Yii::$app->request->absoluteUrl;
+
 		ShareLinksAsset::register($this->view);
 	}
 
@@ -95,11 +101,20 @@ class ShareLinks extends \yii\base\Widget {
 	 * @inheritdoc
 	 */
 	public function run() {
-		$this->view->registerJs('$("' . $this->selector . '").sharelinks(' . json_encode($this->clientOptions) . ');');
+		$this->view->registerJs('$("' . $this->selector . '").sharelinks(' . ($this->clientOptions ? json_encode($this->clientOptions) : '') . ');');
 
 		$items = [];
 		foreach($this->getLinks() as $link) {
-			$items[] = Html::a($link['label'], $this->renderUrl($link['url']), isset($link['options']) ? array_merge($this->linkOptions, $link['options']) : $this->linkOptions);
+			if(isset($link['options'])) {
+				$link['options'] = array_merge($this->linkOptions, $link['options']);
+				if(isset($this->linkOptions['class'])) {
+					Html::addCssClass($link['options'], $this->linkOptions['class']);
+				}
+			} else {
+				$link['options'] = $this->linkOptions;
+			}
+
+			$items[] = Html::a($link['label'], $this->renderUrl($link['url']), $link['options']);
 		}
 
 		echo Html::tag('div', implode('', $items), $this->containerOptions);
