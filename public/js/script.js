@@ -23,7 +23,7 @@
 		menubar: 0 // determines whether the menu bar is displayed {1 (YES) or 0 (NO)}.
 	};
 
-	$.fn.shareLinks = function (settings) {
+	$.fn.sharelinks = function (settings) {
 		return this.each(function (i) {
 			var settings = $.extend({}, defaults, settings);
 

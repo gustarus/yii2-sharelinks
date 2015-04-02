@@ -85,7 +85,7 @@ class ShareLinks extends \yii\base\Widget {
 	 * @inheritdoc
 	 */
 	public function run() {
-		$this->view->registerJs('$("' . $this->selector . '").shareLinks(' . json_encode($this->options) . ');');
+		$this->view->registerJs('$("' . $this->selector . '").sharelinks(' . json_encode($this->options) . ');');
 
 		$items = [];
 		foreach($this->getLinks() as $link) {
