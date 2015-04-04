@@ -138,13 +138,4 @@ class ShareLinks extends \yii\base\Widget {
 	public function renderUrl($url) {
 		return str_replace(['{url}', '{title}', '{body}'], [urlencode($this->url), urlencode($this->title), urlencode($this->body)], $url);
 	}
-
-	public function mergeOptions($a, $b) {
-		$a = array_merge($a, $b);
-		if(isset($b['class'])) {
-			Html::addCssClass($a, $b['class']);
-		}
-
-		return $a;
-	}
 }
