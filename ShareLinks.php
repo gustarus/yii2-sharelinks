@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by:  Pavel Kondratenko.
+ * Created at:  04.04.15 17:21
+ * Email:       gustarus@gmail.com
+ * Web:         http://webulla.ru
+ */
 
 namespace webulla\sharelinks;
 
@@ -27,7 +33,7 @@ class ShareLinks extends \yii\base\Widget {
 	/**
 	 * @var string
 	 */
-	public $selector = '.share .share-link';
+	public $selector = '.share .share-link-trigger';
 
 	/**
 	 * @var array
@@ -52,13 +58,13 @@ class ShareLinks extends \yii\base\Widget {
 	 * @var array
 	 */
 	public $services = [
-		'twitter' => ['label' => 'Share via twitter', 'url' => 'https://twitter.com/intent/tweet?url={url}'],
-		'facebook' => ['label' => 'Share via Facebook', 'url' => 'https://www.facebook.com/sharer/sharer.php?u={url}'],
-		'vkontakte' => ['label' => 'Share via Vkontakte', 'url' => 'http://vk.com/share.php?url={url}'],
-		'gplus' => ['label' => 'Share via Google Plus', 'url' => 'https://plus.google.com/share?url={url}'],
-		'linkedin' => ['label' => 'Share via Linkedin', 'url' => 'http://www.linkedin.com/shareArticle?url={url}'],
-		'kindle' => ['label' => 'Share via Kindle', 'url' => 'http://fivefilters.org/kindle-it/send.php?url={url}'],
-		'email' => ['label' => 'Share via E-mail', 'url' => 'mailto:?subject={title}&body={body} {url}', 'options' => ['class' => 'share-link-manual']],
+		'twitter' => ['label' => 'Share via twitter', 'url' => 'https://twitter.com/intent/tweet?url={url}', 'options' => ['class' => 'share-link-trigger']],
+		'facebook' => ['label' => 'Share via Facebook', 'url' => 'https://www.facebook.com/sharer/sharer.php?u={url}', 'options' => ['class' => 'share-link-trigger']],
+		'vkontakte' => ['label' => 'Share via Vkontakte', 'url' => 'http://vk.com/share.php?url={url}', 'options' => ['class' => 'share-link-trigger']],
+		'gplus' => ['label' => 'Share via Google Plus', 'url' => 'https://plus.google.com/share?url={url}', 'options' => ['class' => 'share-link-trigger']],
+		'linkedin' => ['label' => 'Share via Linkedin', 'url' => 'http://www.linkedin.com/shareArticle?url={url}', 'options' => ['class' => 'share-link-trigger']],
+		'kindle' => ['label' => 'Share via Kindle', 'url' => 'http://fivefilters.org/kindle-it/send.php?url={url}', 'options' => ['class' => 'share-link-trigger']],
+		'email' => ['label' => 'Share via E-mail', 'url' => 'mailto:?subject={title}&body={body} {url}'],
 	];
 
 	/**
@@ -74,6 +80,9 @@ class ShareLinks extends \yii\base\Widget {
 		foreach($data as $key => $link) {
 			if(isset($this->services[$key])) {
 				$link = array_merge($this->services[$key], $link);
+				if(isset($this->services[$key]['options']) && isset($this->services[$key]['options']['class'])) {
+					Html::addCssClass($link['options'], $this->services[$key]['options']['class']);
+				}
 			}
 
 			$this->_links[$key] = $link;
@@ -105,13 +114,15 @@ class ShareLinks extends \yii\base\Widget {
 
 		$items = [];
 		foreach($this->getLinks() as $link) {
-			if(isset($link['options'])) {
+			if(!isset($link['options'])) {
+				$link['options'] = [];
+			}
+
+			if($this->linkOptions) {
 				$link['options'] = array_merge($this->linkOptions, $link['options']);
 				if(isset($this->linkOptions['class'])) {
 					Html::addCssClass($link['options'], $this->linkOptions['class']);
 				}
-			} else {
-				$link['options'] = $this->linkOptions;
 			}
 
 			$items[] = Html::a($link['label'], $this->renderUrl($link['url']), $link['options']);
@@ -126,5 +137,14 @@ class ShareLinks extends \yii\base\Widget {
 	 */
 	public function renderUrl($url) {
 		return str_replace(['{url}', '{title}', '{body}'], [urlencode($this->url), urlencode($this->title), urlencode($this->body)], $url);
+	}
+
+	public function mergeOptions($a, $b) {
+		$a = array_merge($a, $b);
+		if(isset($b['class'])) {
+			Html::addCssClass($a, $b['class']);
+		}
+
+		return $a;
 	}
 }

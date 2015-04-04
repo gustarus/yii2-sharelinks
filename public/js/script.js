@@ -1,11 +1,13 @@
 /**
- * Created by:  Itella Connexions ©
- * Created at:  15:04 02.04.15
- * Developer:   Pavel Kondratenko
- * Contact:     gustarus@gmail.com
+ * Created by:  Pavel Kondratenko.
+ * Created at:  04.04.15 17:21
+ * Email:       gustarus@gmail.com
+ * Web:         http://webulla.ru
  */
 
 (function ($) {
+	var name = 'sharelinks';
+
 	var defaults = {
 		height: 450, // sets the height in pixels of the window.
 		width: 600, // sets the width in pixels of the window.
@@ -16,22 +18,22 @@
 		left: 0, // left position when the window appears.
 		top: 0, // top position when the window appears.
 		center: 1, // should we center the window? {1 (YES) or 0 (NO)}. overrides top and left
-		createnew: 1, // should we create a new window for each occurance {1 (YES) or 0 (NO)}.
 		location: 0, // determines whether the address bar is displayed {1 (YES) or 0 (NO)}.
 		menubar: 0 // determines whether the menu bar is displayed {1 (YES) or 0 (NO)}.
 	};
 
-	$.fn.sharelinks = function (settings) {
-		return this.not('.share-link-manual').each(function (i) {
-			var settings = $.extend({}, defaults, settings);
+	var methods = {
+		init: function (settings) {
+			settings = $.extend({}, defaults, settings);
 
-			// center the window
+			// центрирование окна
 			if (settings.center == 1) {
 				settings.top = (screen.height - (settings.height + 110)) / 2;
 				settings.left = (screen.width - settings.width) / 2;
 			}
 
-			var parameters = 'location=' + settings.location +
+			// сборка параметров окна
+			settings.parameters = 'location=' + settings.location +
 				',menubar=' + settings.menubar +
 				',height=' + settings.height +
 				',width=' + settings.width +
@@ -44,13 +46,55 @@
 				',top=' + settings.top +
 				',screenY=' + settings.top;
 
-			$(this).click(function (e) {
-				e.preventDefault();
-
-				var name = settings.createnew ? 'PopUpWindow' + i : 'PopUpWindow';
-				var popup = window.open(this.href, name, parameters);
-				popup.focus();
+			this.each(function () {
+				var $link = $(this);
+				if (!$link.data('sharelinks')) {
+					$link.data('sharelinks', settings);
+					$link.click(function (e) {
+						e.preventDefault();
+						methods.exec.call($link);
+					});
+				}
 			});
-		});
+
+			return this;
+		},
+
+		set: function (key, value) {
+			var settings = this.data(name);
+			if (typeof key == 'object') {
+				settings = $.extend(this.data(name), key);
+			} else {
+				settings.key = value;
+			}
+
+			this.data(name, settings);
+		},
+
+		get: function (key) {
+			var settings = this.data(name);
+			if (typeof key == 'undefined') {
+				return settings;
+			}
+
+			return settings.key;
+		},
+
+		exec: function () {
+			var settings = this.data(name);
+			var popup = window.open(this[0].href, 'sharelinks-window', settings.parameters);
+			popup.focus();
+			return this;
+		}
+	};
+
+	$.fn.sharelinks = function (method) {
+		if (methods[method]) {
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
+		} else {
+			console.error('$.sharelinks() Method ' + method + ' was not found.');
+		}
 	};
 })(jQuery);

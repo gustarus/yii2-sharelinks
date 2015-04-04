@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by:  Itella Connexions ©
- * Created at:  15:07 02.04.15
- * Developer:   Pavel Kondratenko
- * Contact:     gustarus@gmail.com
+ * Created by:  Pavel Kondratenko.
+ * Created at:  04.04.15 17:21
+ * Email:       gustarus@gmail.com
+ * Web:         http://webulla.ru
  */
 
 namespace webulla\sharelinks\assets;
